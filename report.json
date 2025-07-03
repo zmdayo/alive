@@ -1,6 +1,6 @@
 {
   "total": 3,
-  "today": 3,
+  "today": 0,
   "difficulty": {
     "total": [
       2,
@@ -12,8 +12,8 @@
       0
     ],
     "today": [
-      2,
-      1,
+      0,
+      0,
       0,
       0,
       0,
