@@ -1,0 +1,40 @@
+name: Analyze Luogu Records
+env:
+  TZ: Asia/Shanghai
+permissions:
+  contents: write
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 20 * * *'  # 每天UTC时间20:00运行
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 检出代码
+      uses: actions/checkout@v4
+      
+    - name: 设置脚本权限
+      run: chmod +x scripts/analyze_records.sh
+      
+    - name: 运行分析脚本
+      run: ./scripts/analyze_records.sh
+      
+    - name: 保存报告
+      uses: actions/upload-artifact@v3
+      with:
+        name: luogu-report
+        path: report.json
+        
+    - name: 提交报告到仓库
+      run: |
+        git config --global user.name 'GitHub Actions'
+        git config --global user.email 'actions@github.com'
+        git add report.json
+        git commit -m "自动更新洛谷记录报告 $(date -u +'%Y-%m-%d')"
+        git push
+      if: github.ref == 'refs/heads/main'
