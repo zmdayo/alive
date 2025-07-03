@@ -25,7 +25,7 @@ jobs:
       run: ./scripts/analyze_records.sh
       
     - name: 保存报告
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: luogu-report
         path: report.json
