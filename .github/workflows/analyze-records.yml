@@ -29,15 +29,14 @@ jobs:
       with:
         name: luogu-report
         path: |
-          report_*.json
-          report.json
+          ${{ env.REPORT_FILENAME }}
+          ${{ env.REPORT_SYMLINK }}
         
     - name: 提交报告到仓库
       run: |
         git config --global user.name 'GitHub Actions'
         git config --global user.email 'actions@github.com'
-        # 添加所有报告文件和软链接
-        git add report_*.json report.json
+        git add -A
         git commit -m "自动更新洛谷记录报告 $(date -u +'%Y-%m-%d')"
         git push
       if: github.ref == 'refs/heads/main'
