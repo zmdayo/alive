@@ -13,8 +13,8 @@ rm -f report_*.json
 # 初始化统计变量
 total_count=0
 today_count=0
-declare -a total_diff=(0 0 0 0 0 0 0)
-declare -a today_diff=(0 0 0 0 0 0 0)
+declare -a total_diff=(0 0 0 0 0 0 0 0)
+declare -a today_diff=(0 0 0 0 0 0 0 0)
 max_time=0
 last_id=0
 
@@ -45,14 +45,14 @@ for file in record/*.json; do
     if [[ "$file_date" == "$today" ]]; then
         ((today_count++))
         # 更新今日难度统计
-        if (( difficulty >= 1 && difficulty <= 7 )); then
-            (( today_diff[difficulty-1]++ ))
+        if (( difficulty >= 0 && difficulty <= 7 )); then
+            (( today_diff[difficulty]++ ))
         fi
     fi
     
     # 更新总难度统计
-    if (( difficulty >= 1 && difficulty <= 7 )); then
-        (( total_diff[difficulty-1]++ ))
+    if (( difficulty >= 0 && difficulty <= 7 )); then
+        (( total_diff[difficulty]++ ))
     fi
     
     # 追踪最新提交
