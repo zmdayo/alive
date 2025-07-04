@@ -1,9 +1,10 @@
 {
-  "timestamp": 1751591039,
+  "timestamp": 1751597239,
   "total": 3,
   "today": 0,
   "difficulty": {
     "total": [
+      0,
       2,
       1,
       0,
@@ -13,6 +14,7 @@
       0
     ],
     "today": [
+      0,
       0,
       0,
       0,
