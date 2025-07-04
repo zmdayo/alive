@@ -17,6 +17,7 @@ last_id=0
 
 # 北京时间 (UTC+8)
 today=$(TZ='Asia/Shanghai' date +%Y-%m-%d)
+time_stamp=$(TZ='Asia/Shanghai' date +%s)
 
 echo "开始分析记录文件... 今日日期: $today"
 
@@ -60,6 +61,7 @@ done
 
 # 生成JSON报告
 echo "生成报告:"
+echo "时间戳: $time_stamp"
 echo "总AC数: $total_count"
 echo "今日AC数: $today_count"
 echo "最后提交ID: $last_id"
@@ -68,12 +70,14 @@ printf "总: %s\n" "${total_diff[*]}"
 printf "今日: %s\n" "${today_diff[*]}"
 
 jq -n \
+    --argjson timestamp "$time_stamp" \
     --argjson total "$total_count" \
     --argjson today "$today_count" \
     --argjson last_id "$last_id" \
     --argjson total_diff "$(printf '%s\n' "${total_diff[@]}" | jq -s .)" \
     --argjson today_diff "$(printf '%s\n' "${today_diff[@]}" | jq -s .)" \
     '{
+        timestamp: $timestamp,
         total: $total,
         today: $today,
         difficulty: {
@@ -81,6 +85,6 @@ jq -n \
             today: $today_diff
         },
         last_id: $last_id
-    }' > report.json
+    }' > "report_${time_stamp}.json"
 
 cat report.json
