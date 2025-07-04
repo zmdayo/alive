@@ -95,5 +95,6 @@ jq -n \
 # 创建软链接 report.json
 ln -sf "$report_file" report.json
 
-echo "创建软链接: report.json -> $report_file"
-ls -l report.json
+# 将报告文件名写入GitHub环境变量
+echo "REPORT_FILENAME=$report_file" >> $GITHUB_ENV
+echo "REPORT_SYMLINK=report.json" >> $GITHUB_ENV
