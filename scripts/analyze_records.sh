@@ -7,6 +7,9 @@ if ! command -v jq &> /dev/null; then
     sudo apt-get install -y jq
 fi
 
+# 删除所有旧的时间戳报告
+rm -f report_*.json
+
 # 初始化统计变量
 total_count=0
 today_count=0
@@ -69,6 +72,8 @@ echo "难度统计:"
 printf "总: %s\n" "${total_diff[*]}"
 printf "今日: %s\n" "${today_diff[*]}"
 
+# 创建带时间戳的报告
+report_file="report_$time_stamp.json"
 jq -n \
     --argjson timestamp "$time_stamp" \
     --argjson total "$total_count" \
@@ -85,6 +90,10 @@ jq -n \
             today: $today_diff
         },
         last_id: $last_id
-    }' > "report_${time_stamp}.json"
+    }' > "$report_file"
 
-cat report.json
+# 创建软链接 report.json
+ln -sf "$report_file" report.json
+
+echo "创建软链接: report.json -> $report_file"
+ls -l report.json
